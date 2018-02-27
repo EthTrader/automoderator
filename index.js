@@ -7,21 +7,25 @@ class AutoModerator {
   }
 
   addRule(ruleOptions, commentText) {
-    this.rules.push(this.convertRuleToText(ruleOptions));
+    this.rules.push(this.convertRuleToText(ruleOptions, commentText));
   }
 
   addRules(rules) {
     rules.forEach(this.addRule);
   }
 
-  convertRuleToText(rule) {
+  convertRuleToText(rule, commentText) {
     let keys = Object.keys(rule);
     let text = [];
+
+    if (commentText) {
+      text.push("###### " + commentText);
+    }
 
     for (let field of keys) {
       let content = rule[field];
 
-      text.push("\t" + field + ": " + content);
+      text.push("    " + field + ": " + content);
     }
     return text.join('\n')
   }
