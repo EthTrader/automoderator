@@ -14,9 +14,13 @@ class AutoModerator {
     rules.forEach(this.addRule);
   }
 
-  convertRuleToText(rule, commentText) {
+  convertRuleToText(rule, commentText, subrule) {
     let keys = Object.keys(rule);
     let text = [];
+
+    if (!subrule) {
+      text.push('---');
+    }
 
     if (commentText) {
       text.push("###### " + commentText);
@@ -25,9 +29,17 @@ class AutoModerator {
     for (let field of keys) {
       let content = rule[field];
 
-      text.push("    " + field + ": " + content);
+      if (content.constructor === Object) {
+        text.push(this.convertRuleToText(content, null, true));
+      } else {
+        if (Array.isArray(content)) {
+          text.push("    " + field + ": [" + content.map((x) => '"' + x + '"').join(', ') + "]");
+        } else {
+          text.push("    " + field + ": " + content);
+        }
+      }
     }
-    return text.join('\n')
+    return text.join('\n');
   }
 
   build(outputFile) {
