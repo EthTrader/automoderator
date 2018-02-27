@@ -10,6 +10,10 @@ class AutoModerator {
     this.rules.push(this.convertRuleToText(ruleOptions));
   }
 
+  addRules(rules) {
+    rules.forEach(this.addRule);
+  }
+
   convertRuleToText(rule) {
     let keys = Object.keys(rule);
     let text = [];

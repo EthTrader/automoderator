@@ -9,8 +9,9 @@ automoderator.addRule({
 });
 
 automoderator.addRule(DomainBlacklist('./blacklist.txt'));
-
 automoderator.addRule(Flair({age: '', text: ''}));
+
+automoderator.addRules(require('./flairs.js'));
 
 automoderator.build ("./output.txt");
 
