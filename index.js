@@ -34,6 +34,8 @@ class AutoModerator {
       } else {
         if (Array.isArray(content)) {
           text.push("    " + field + ": [" + content.map((x) => '"' + x + '"').join(', ') + "]");
+        } else if (typeof content === 'string' && content.includes("\n")) {
+          text.push("    " + field + ": |" + content.replace(/\n/g, "\n        "));
         } else {
           text.push("    " + field + ": " + content);
         }
@@ -49,4 +51,3 @@ class AutoModerator {
 }
 
 module.exports = AutoModerator;
-
